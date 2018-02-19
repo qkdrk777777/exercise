@@ -2,7 +2,7 @@
 #'
 #' @return exercise data
 #' @examples
-#' data<-exe('kettlebell_swing',input=c(30,30,30,30))
+#' data<-exe(ex='kettlebell_swing',input=c(30,30,30,30))
 #' exdata<-exe('kettlebell_swing',c(30,30,30),rawdata=exdata)
 #' @export
 exe<-function(ex,input,rawdata=NULL,summary=F){
@@ -15,9 +15,9 @@ exe<-function(ex,input,rawdata=NULL,summary=F){
         if(is.null(rawdata)){output<-merge(ex1,ex2,by='day')}else if(is.data.frame(rawdata)){
       output<-rbind(rawdata,merge(ex1,ex2,by='day'))} else stop("Rawdata type only data.frame")
     if(!is.null(rawdata)){
-    if(unique(rawdata[,1])%in%ex1$day)
-   {temp<-output[output$day==unique(rawdata$day),]
-    output[output$day==unique(rawdata$day),]<-merge(temp[,-4],ddply(temp,~day,summarise,sum_count=sum(count)),by='day')}
+    if(unique(ex1$day)%in%unique(rawdata[,1]))
+   {temp<-output[output$day==unique(ex1$day),]
+    output[output$day==unique(ex1$day),]<-merge(temp[,-4],ddply(temp,~day,summarise,sum_count=sum(count)),by='day')}
     }
     output<-output[order(output$day),]
     if(summary) output<-ddply(output,~day,summarise,sum_count=sum(count))
