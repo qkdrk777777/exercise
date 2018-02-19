@@ -25,4 +25,3 @@ exe<-function(ex,input,rawdata=NULL,summary=F){
     }
 #devtools::use_data(exdata, internal = F,overwrite=T)
 
-
