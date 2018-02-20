@@ -16,9 +16,11 @@ exe<-function(ex,input,rawdata=NULL,summary=F){
       output<-rbind(rawdata,merge(ex1,ex2,by='day'))} else stop("Rawdata type only data.frame")
     if(!is.null(rawdata)){
     if(unique(ex1$day)%in%unique(rawdata[,1]))
+
    {temp<-output[output$day==unique(ex1$day),]
-    output[output$day==unique(ex1$day),]<-merge(temp[,-4],ddply(temp,~day,summarise,sum_count=sum(count)),by='day')}
+    output[output$day==unique(ex1$day),]<-merge(temp[,-4],ddply(temp,~day+type,summarise,sum_count=sum(count)),by=c('day','type'))}
     }
+
     output<-output[order(output$day),]
     if(summary) output<-ddply(output,~day,summarise,sum_count=sum(count))
     return(output)
